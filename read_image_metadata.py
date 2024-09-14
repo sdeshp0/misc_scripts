@@ -2,6 +2,8 @@ import os
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 import piexif
 from PIL import Image
 from tabulate import tabulate
@@ -90,6 +92,29 @@ def extract_metadata(dir_path):
 
     return metadata_df
 
+def charting(df):
+    #models = np.unique(df['model'])
+    models = ['E-M10MarkIV']
+
+    for model in models:
+        dfm = df[df['model'] == model]
+
+        plt.hist(dfm['f_number'], bins=20)
+        plt.title('{} F-Number Distribution'.format(model))
+        plt.show()
+
+        plt.hist(dfm['iso_speed_ratings'], bins=40)
+        plt.title('{} ISO Distribution'.format(model))
+        plt.show()
+
+        plt.hist(dfm['focal_length'], bins=40)
+        plt.title('{} Focal Length Distribution'.format(model))
+        plt.show()
+
+        plt.hist(dfm['exposure_time (1/)'], bins=40)
+        plt.title('{} Exposure Time (1/T) Distribution'.format(model))
+        plt.show()
+
 if __name__ == "__main__":
     # Define the directory containing the image files
     dir_path = 'C:\\Users\snd21\Pictures\ALL_PHOTOS'
@@ -101,3 +126,7 @@ if __name__ == "__main__":
     # Print the dataframe
     print(tabulate(metadata_df, headers="keys", tablefmt="psql"))
     metadata_df.to_csv('metadata.csv')
+
+    # Run charts
+    charting(metadata_df)
+
