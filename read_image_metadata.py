@@ -93,27 +93,37 @@ def extract_metadata(dir_path):
     return metadata_df
 
 def charting(df):
-    #models = np.unique(df['model'])
-    models = ['E-M10MarkIV']
+    """
+    Generates and saves histogram distributions for F-Number, ISO, Focal Length and Exposure Time for all camera models
+    in the metadata dataframe.
+
+    Args:
+        df: The pandas DataFrame containing the extracted metadata of all the image files.
+    """
+    models = np.unique(df['model'])
 
     for model in models:
         dfm = df[df['model'] == model]
 
         plt.hist(dfm['f_number'], bins=20)
         plt.title('{} F-Number Distribution'.format(model))
-        plt.show()
+        plt.savefig('{} F-Number Distribution'.format(model))
+        plt.clf()
 
         plt.hist(dfm['iso_speed_ratings'], bins=40)
         plt.title('{} ISO Distribution'.format(model))
-        plt.show()
+        plt.savefig('{} ISO Distribution'.format(model))
+        plt.clf()
 
         plt.hist(dfm['focal_length'], bins=40)
         plt.title('{} Focal Length Distribution'.format(model))
-        plt.show()
+        plt.savefig('{} Focal Length Distribution'.format(model))
+        plt.clf()
 
         plt.hist(dfm['exposure_time (1/)'], bins=40)
         plt.title('{} Exposure Time (1/T) Distribution'.format(model))
-        plt.show()
+        plt.savefig('{} Exposure Time Distribution'.format(model))
+        plt.clf()
 
 if __name__ == "__main__":
     # Define the directory containing the image files
